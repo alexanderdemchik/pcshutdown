@@ -1,0 +1,48 @@
+{
+  "name": "pcshutdown",
+  "productName": "PC Shutdown",
+  "version": "1.0.0",
+  "description": "Remote PC shutdown application",
+  "homepage": "",
+  "main": "./_build/index.js",
+  "scripts": {
+    "electron:dev": "node scripts/electron.dev",
+    "dist:win": "electron-builder --config electron-builder.config.js --win --x64 --ia32",
+    "dist:linux": "electron-builder --config electron-builder.config.js --linux",
+    "build": "webpack --config webpack.electron.config.js --mode production"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Xander",
+    "email": "xandershutdown@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/auto-launch": "^5.0.1",
+    "@types/koa": "^2.13.1",
+    "@types/koa__router": "^8.0.4",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "chalk": "^4.1.0",
+    "copy-webpack-plugin": "^8.0.0",
+    "cross-spawn": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "electron": "12.0.1",
+    "electron-builder": "^22.10.5",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "^2.20.0",
+    "ts-loader": "^8.0.18",
+    "typescript": "^4.0.2",
+    "webpack": "5.27.1",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "auto-launch": "^5.0.5",
+    "getmac": "^5.17.0",
+    "i18next": "^19.9.2",
+    "koa": "^2.13.1",
+    "winston": "^3.3.3"
+  }
+}

@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shadow" />
+    <item>
+        <shape
+            android:shape="oval">
+            <solid
+                android:color="?buttonColor"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/moon"></item>
+</layer-list>

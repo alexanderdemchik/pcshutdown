@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.xander.shutdownpc.ui.home.HomeFragment"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_deviceFragment"
+            app:destination="@id/deviceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceFragment"
+        android:name="com.xander.shutdownpc.ui.device.DeviceFragment"
+   >
+        <argument
+            android:name="device"
+            app:argType="com.xander.shutdownpc.model.DeviceInfo"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+</navigation>

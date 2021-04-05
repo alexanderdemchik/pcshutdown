@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shadow"/>
+    <item>
+        <shape
+            android:shape="oval">
+            <solid
+                android:color="?buttonColor"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/power_off"
+        android:top="100dp"
+        android:start="100dp"
+        android:end="100dp"
+        android:bottom="100dp"/>
+</layer-list>
+
