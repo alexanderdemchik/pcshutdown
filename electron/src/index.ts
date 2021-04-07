@@ -16,9 +16,9 @@ const lock = app.requestSingleInstanceLock()
 if (!lock) {
   logger.debug('Prevent start second instance')
   app.quit();
+} else {
+  app.on('ready', onReady);
 }
-
-app.on('ready', onReady);
 
 async function onReady() {
   process.on('uncaughtException', function (error) {
@@ -39,8 +39,7 @@ async function onReady() {
  */
 async function checkAutorun() {
   const autoLaunch = new AutoLaunch({
-    name: APP_NAME,
-    path: app.getPath('exe'),
+    name: APP_NAME
   });
 
   try {
@@ -57,10 +56,21 @@ async function checkAutorun() {
 }
 
 async function createTrayMenu() {
-  tray = new Tray(path.join(getRootPath(), './assets/app_icon.ico'));
+  tray = new Tray(path.join(getRootPath(), getAppIconPath()));
   const contextMenu = Menu.buildFromTemplate([
     { label: i18n.t("EXIT"), click() {app.quit()} },
   ]);
   tray.setToolTip(APP_NAME);
   tray.setContextMenu(contextMenu);
+}
+
+function getAppIconPath() {
+  switch (process.platform) {
+    case 'win32':
+      return './assets/app_icon.ico';
+    case 'darwin':
+      return './assets/app_icon.ico';
+    case 'linux':
+      return './assets/app_icon.icns';
+  }
 }

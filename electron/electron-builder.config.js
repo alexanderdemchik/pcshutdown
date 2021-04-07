@@ -8,7 +8,8 @@ module.exports = {
     "icon": "src/assets/app_icon.ico"
   },
   "linux": {
-    "target": ["tar.gz", "rpm", "deb"]
+    "target": ["tar.gz", "rpm", "deb"],
+    "icon": "src/assets/app_icon.icns"
   },
   "nsis": {
     "oneClick": false,
