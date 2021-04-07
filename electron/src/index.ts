@@ -3,8 +3,7 @@ import { app, Tray, Menu } from 'electron';
 import path from 'path';
 import i18n, { init as initI18n } from './i18';
 import logger from './logger';
-import server from './server';
-import config from './config';
+import * as server from './server';
 import AutoLaunch from 'auto-launch';
 
 const APP_NAME = "PC Shutdown";
@@ -22,20 +21,17 @@ if (!lock) {
 app.on('ready', onReady);
 
 async function onReady() {
-  if (process.env.NODE_ENV === 'production') await checkAutorun();
-  await initI18n(app.getLocale());
-  createTrayMenu();
- 
-  server.listen(config.port, () => {
-    logger.info(`Started server on port ${config.port}`)
-  }).on('error', (error) => {
-    logger.error('%o', error);
-  });
-
   process.on('uncaughtException', function (error) {
     logger.error('%o', error);
     app.quit();
   });
+
+  if (process.env.NODE_ENV === 'production') await checkAutorun();
+  
+  await initI18n(app.getLocale());
+  await server.start();
+
+  createTrayMenu();
 }
 
 /**
@@ -59,7 +55,6 @@ async function checkAutorun() {
     logger.error('Error to add app to autorun %o', e);
   }
 }
-
 
 async function createTrayMenu() {
   tray = new Tray(path.join(getRootPath(), './assets/app_icon.ico'));
