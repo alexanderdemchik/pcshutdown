@@ -21,10 +21,16 @@ if (!lock) {
 }
 
 async function onReady() {
+  process.on('unhandledRejection', function (error) {
+    logger.error('%o', error);
+    app.quit();
+  });
+
   process.on('uncaughtException', function (error) {
     logger.error('%o', error);
     app.quit();
   });
+
 
   if (process.env.NODE_ENV === 'production') await checkAutorun();
   
@@ -38,6 +44,7 @@ async function onReady() {
  * Try to add app to autorun
  */
 async function checkAutorun() {
+  logger.info('check autorun');
   const autoLaunch = new AutoLaunch({
     name: APP_NAME
   });
@@ -69,8 +76,8 @@ function getAppIconPath() {
     case 'win32':
       return './assets/app_icon.ico';
     case 'darwin':
-      return './assets/app_icon.ico';
-    case 'linux':
       return './assets/app_icon.icns';
+    case 'linux':
+      return './assets/app_icon.png';
   }
 }
