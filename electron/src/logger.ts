@@ -1,9 +1,10 @@
 import winston from 'winston';
+import 'winston-daily-rotate-file';
+import path from 'path';
+import { getRootPath } from './utils'; 
 
 function formatter(isConsole: boolean) {
-  const formatters = [
-  
-  ];
+  const formatters = [];
 
   formatters.push(
     winston.format(info => {
@@ -31,8 +32,13 @@ const logger = winston.createLogger({
   level: 'debug',
   format: winston.format.json(),
   transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error', format: formatter(false) }),
-    new winston.transports.File({ filename: 'combined.log', format: formatter(false) }),
+    new winston.transports.DailyRotateFile({ 
+      filename: path.join(getRootPath(), 'app-%DATE%.log'), 
+      format: formatter(false),  
+      datePattern: 'YYYY-MM-DD-HH',
+      maxSize: '20m',
+      maxFiles: '14d' 
+    }),
   ],
 });
 

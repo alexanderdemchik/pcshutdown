@@ -2,7 +2,7 @@
   "name": "pcshutdown",
   "productName": "PC Shutdown",
   "version": "1.0.0",
-  "description": "Remote PC shutdown application",
+  "description": "Remote shutdown of your PC",
   "homepage": "",
   "main": "./_build/index.js",
   "scripts": {
@@ -13,8 +13,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "Xander",
-    "email": "xandershutdown@gmail.com"
+    "name": "Alexander Demchik",
+    "email": "alexanderdemchik672@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {
@@ -43,6 +43,7 @@
     "getmac": "^5.17.0",
     "i18next": "^19.9.2",
     "koa": "^2.13.1",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.2"
   }
 }

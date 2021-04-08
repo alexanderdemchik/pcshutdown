@@ -5,8 +5,9 @@ import i18n, { init as initI18n } from './i18';
 import logger from './logger';
 import * as server from './server';
 import AutoLaunch from 'auto-launch';
+import { productName } from '../package.json';
 
-const APP_NAME = "PC Shutdown";
+const APP_NAME = productName;
 
 let tray;
 
@@ -45,9 +46,15 @@ async function onReady() {
  */
 async function checkAutorun() {
   logger.info('check autorun');
-  const autoLaunch = new AutoLaunch({
-    name: APP_NAME
-  });
+  const autoLaunch = new AutoLaunch(
+    // fix for linux https://github.com/Teamwork/node-auto-launch/issues/99 TODO: create custom auto-launch package
+    process.env.APPIMAGE ? {
+      name: APP_NAME,
+      path: `${process.env.APPIMAGE}`.replace(/ /g, '\\ '),
+    } : {
+      name: APP_NAME,
+    }
+  );
 
   try {
     const isAutorunEnabled = await autoLaunch.isEnabled()

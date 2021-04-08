@@ -1,7 +1,7 @@
 import cp from 'child_process';
 import os from 'os';
 import getMAC from 'getmac';
-import { DeviceInfo } from './interfaces/DeviceInfo';
+import { DeviceInfo } from '../interfaces/DeviceInfo';
 
 export const shutdown = async () => {
   switch (process.platform) {

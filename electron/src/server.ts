@@ -2,7 +2,7 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import logger from './logger';
 import config from './config';
-import * as commands from './commands';
+import * as commands from './services/commands';
 
 const server = new Koa();
 const router = new Router();
@@ -10,7 +10,6 @@ const router = new Router();
 server.use(async (ctx, next) => {
   const started = Date.now();
   await next();
-  // once all middleware below completes, this continues
   const ellapsed = (Date.now() - started) + 'ms';
   logger.debug(`${ctx.url} - ${ellapsed}`);
 });
