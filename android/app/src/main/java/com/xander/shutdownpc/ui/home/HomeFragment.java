@@ -67,20 +67,30 @@ public class HomeFragment extends Fragment {
         mViewModel.getDevices().observe(getViewLifecycleOwner(), (deviceInfoList) -> {
             Log.d(TAG, "onCreateView: " + deviceInfoList);
             ((DevicesAdapter) devicesList.getAdapter()).setLocalDataSet(deviceInfoList);
+
+            if (mViewModel.getDevices().getValue().size() > 0) {
+                view.findViewById(R.id.no_results_view).setVisibility(View.GONE);
+            }
         });
 
         mViewModel.getSearching().observe(getViewLifecycleOwner(), (searching) -> {
             indicator.setVisibility(searching ? View.VISIBLE : View.INVISIBLE);
-            if (!searching) swipeRefreshLayout.setRefreshing(false);
+
+            if (!searching) {
+                swipeRefreshLayout.setRefreshing(false);
+
+                if (mViewModel.getDevices().getValue().size() == 0) {
+                    view.findViewById(R.id.no_results_view).setVisibility(View.VISIBLE);
+                }
+            }
         });
 
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mViewModel.findDevices();
     }
 }

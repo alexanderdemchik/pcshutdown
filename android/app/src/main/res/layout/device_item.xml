@@ -32,9 +32,10 @@
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/device_mac"
+        android:id="@+id/device_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="mac"
+        android:singleLine="true"
+        android:text="ip"
         android:textAlignment="center" />
 </LinearLayout>

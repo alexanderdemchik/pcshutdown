@@ -2,6 +2,7 @@ package com.xander.shutdownpc;
 
 import android.app.Application;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -17,6 +18,18 @@ public class App extends Application {
         Log.d(Application.class.getName(), "onCreate: ");
         super.onCreate();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
         // Required initialization logic here!
     }
 

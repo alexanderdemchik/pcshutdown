@@ -14,6 +14,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "int[]", "DEFAULT_API_PORTS",
+                "{" + "60000, 60001, 60002, 60003, 60004, 60005" +"}"
+        buildConfigField "String", "API_PROTOCOL", "\"http\""
     }
 
     buildTypes {

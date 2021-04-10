@@ -9,6 +9,7 @@ public class DeviceInfo implements Serializable {
     private String arch;
     private String mac;
     private String ip;
+    private int port;
     private String platform;
     private String version;
 }

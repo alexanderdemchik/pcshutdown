@@ -1,7 +1,10 @@
 package com.xander.shutdownpc.api;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.xander.shutdownpc.App;
+import com.xander.shutdownpc.BuildConfig;
 import com.xander.shutdownpc.model.DeviceInfo;
 import com.xander.shutdownpc.model.enums.Command;
 import com.xander.shutdownpc.model.exceptions.HttpException;
@@ -26,16 +29,17 @@ import static com.xander.shutdownpc.model.enums.Command.SLEEP;
 public class Api {
     private static OkHttpClient http = OkHttpProvider.getInstance();
     private static Gson gson = GsonProvider.getInstance();
+    private static final String TAG = Api.class.getName();
 
     public static final String INFO_PATH = "/";
     public static final String SHUTDOWN_PATH = "/shutdown";
     public static final String SLEEP_PATH = "/sleep";
     public static final String RESTART_PATH = "/restart";
+    public static final String API_PROTOCOL = BuildConfig.API_PROTOCOL;
 
-
-    public static DeviceInfo getDeviceInfo(String ip) throws IOException, HttpException {
-        String address = App.API_PROTOCOL + "://" + ip + ":" + App.API_PORT + INFO_PATH;
-
+    public static DeviceInfo getDeviceInfo(String ip, int port) throws IOException, HttpException {
+        String address = API_PROTOCOL + "://" + ip + ":" + port + INFO_PATH;
+        Log.d(Api.class.getName(), "getDeviceInfo: " + address);
         Request request = new Request.Builder().url(address).get().build();
         Response response = http.newBuilder().callTimeout(10, TimeUnit.SECONDS).build().newCall(request).execute();
 
@@ -43,39 +47,37 @@ public class Api {
 
         ResponseBody body = response.body();
 
-        if (body != null) {
-            DeviceInfo info = gson.fromJson(body.string(), DeviceInfo.class);
-            info.setIp(ip);
-            return info;
-        }
-
-        return null;
+        DeviceInfo info = gson.fromJson(body.string(), DeviceInfo.class);
+        info.setIp(ip);
+        info.setPort(port);
+        Log.d(TAG, "getDeviceInfo: " + info);
+        return info;
     }
 
-    public static void shutdown(String ip) throws IOException, HttpException {
-        sendCommand(ip, SHUTDOWN);
+    public static void shutdown(String ip, int port) throws IOException, HttpException {
+        sendCommand(ip, port, SHUTDOWN);
     }
 
-    public static void restart(String ip) throws IOException, HttpException {
-        sendCommand(ip, RESTART);
+    public static void restart(String ip, int port) throws IOException, HttpException {
+        sendCommand(ip, port, RESTART);
     }
 
-    public static void sleep(String ip) throws IOException, HttpException {
-        sendCommand(ip, SLEEP);
+    public static void sleep(String ip, int port) throws IOException, HttpException {
+        sendCommand(ip, port, SLEEP);
     }
 
-    public static void sendCommand(String ip, Command command) throws HttpException, IOException {
+    public static void sendCommand(String ip, int port, Command command) throws HttpException, IOException {
         String address;
 
         switch (command) {
             case SLEEP:
-                address = App.API_PROTOCOL + "://" + ip + ":" + App.API_PORT + SLEEP_PATH;
+                address = API_PROTOCOL + "://" + ip + ":" + port + SLEEP_PATH;
                 break;
             case RESTART:
-                address = App.API_PROTOCOL + "://" + ip + ":" + App.API_PORT + RESTART_PATH;
+                address = API_PROTOCOL + "://" + ip + ":" + port + RESTART_PATH;
                 break;
             case SHUTDOWN:
-                address = App.API_PROTOCOL + "://" + ip + ":" + App.API_PORT + SHUTDOWN_PATH;
+                address = API_PROTOCOL + "://" + ip + ":" + port + SHUTDOWN_PATH;
                 break;
             default: throw new IOException("Unsupported command");
         }
@@ -84,5 +86,31 @@ public class Api {
         Response response = http.newCall(request).execute();
 
         if (!response.isSuccessful()) throw new HttpException(response.code(), response.body());
+    }
+
+    /**
+     * ping with android ping utility (ECMP protocol)
+     * @param ip ip address to ping
+     * @return true if ip is reachable
+     */
+    public static boolean ping(String ip) {
+//        Log.d(Api.class.getName(), "ping: ");
+        Runtime runtime = Runtime.getRuntime();
+        try
+        {
+            Process process = runtime.exec("/system/bin/ping -c 1 " + ip);
+
+            int mExitValue = process.waitFor();
+
+            if (process.getOutputStream() != null) process.getOutputStream().close();
+            if (process.getInputStream() != null) process.getInputStream().close();
+            if (process.getErrorStream() != null) process.getErrorStream().close();
+
+            return mExitValue == 0;
+        }
+        catch (InterruptedException | IOException ignore)
+        {
+            return false;
+        }
     }
 }

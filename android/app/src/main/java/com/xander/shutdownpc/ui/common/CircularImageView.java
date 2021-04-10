@@ -11,6 +11,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.VectorDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.google.android.material.color.MaterialColors;
 import com.xander.shutdownpc.R;
@@ -91,7 +92,7 @@ public class CircularImageView extends androidx.appcompat.widget.AppCompatImageV
         // init shader
         if (image != null)
         {
-            shader = new BitmapShader(Bitmap.createScaledBitmap(image, canvas.getWidth(), canvas.getHeight(), false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            shader = new BitmapShader(Bitmap.createScaledBitmap(image, getWidth(), getHeight(), false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
             paint.setShader(shader);
             int circleCenter = viewWidth / 2;
 

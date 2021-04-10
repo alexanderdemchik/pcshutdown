@@ -1,5 +1,7 @@
 package com.xander.shutdownpc.ui.home;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
             super(view);
             // Define click listener for the ViewHolder's View
             deviceName = view.findViewById(R.id.device_name);
-            macAddress = view.findViewById(R.id.device_mac);
+            macAddress = view.findViewById(R.id.device_ip);
             deviceInfo = view.findViewById(R.id.device_additional_info);
             image = view.findViewById(R.id.device_image);
         }
@@ -70,12 +72,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
         viewHolder.itemView.setOnClickListener(v -> {
             onClickListener.onClick(localDataSet.get(position));
         });
-        viewHolder.image.setImageResource(R.drawable.windows);
         DeviceInfo device = localDataSet.get(position);
+
+        viewHolder.image.setImageResource(getPlatformImageResource(device));
+
         viewHolder.deviceName.setText(device.getHostname());
         viewHolder.deviceInfo.setText(formatDeviceInfo(device.getVersion(), device.getArch()));
 
-        viewHolder.macAddress.setText(device.getMac());
+        viewHolder.macAddress.setText(device.getIp());
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
     }
@@ -88,6 +92,16 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 
     private String formatDeviceInfo(String version, String arch) {
         return version + " " + arch;
+    }
+
+    private int getPlatformImageResource(DeviceInfo deviceInfo) {
+        if (deviceInfo.getPlatform() == null) return R.drawable.windows;
+        switch (deviceInfo.getPlatform()) {
+            case "win32": return R.drawable.windows;
+            case "darwin": return R.drawable.apple;
+            case "linux": return R.drawable.linux;
+            default: return R.drawable.windows;
+        }
     }
 }
 

@@ -23,7 +23,7 @@ public class DeviceViewModel extends ViewModel {
     public void shutdown() {
         disposables.add(
                 Completable.fromAction(() -> {
-                    Api.shutdown(device.getIp());
+                    Api.shutdown(device.getIp(), device.getPort());
                 }).subscribeOn(Schedulers.io())
                         .doOnComplete(() -> {
                             commandResult.setValue(new Result<>(Command.SHUTDOWN, Result.Status.SUCCESS));
@@ -38,7 +38,7 @@ public class DeviceViewModel extends ViewModel {
     public void restart() {
         disposables.add(
                 Completable.fromAction(() -> {
-                    Api.restart(device.getIp());
+                    Api.restart(device.getIp(), device.getPort());
                 }).subscribeOn(Schedulers.io())
                         .doOnComplete(() -> {
                             commandResult.setValue(new Result<>(Command.RESTART, Result.Status.SUCCESS));
@@ -53,7 +53,7 @@ public class DeviceViewModel extends ViewModel {
     public void sleep() {
         disposables.add(
                 Completable.fromAction(() -> {
-                    Api.sleep(device.getIp());
+                    Api.sleep(device.getIp(), device.getPort());
                 }).subscribeOn(Schedulers.io())
                         .doOnComplete(() -> {
                             commandResult.setValue(new Result<>(Command.SLEEP, Result.Status.SUCCESS));

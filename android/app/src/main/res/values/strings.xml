@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">PC Shutdown</string>
     <string name="error">Error occurred</string>
+    <string name="no_devices_found">No devices found. Try to refresh page</string>
 </resources>
