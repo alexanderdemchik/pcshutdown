@@ -25,7 +25,7 @@ public class DeviceViewModel extends ViewModel {
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final String TAG = DeviceViewModel.class.getName();
 
-    private final MutableLiveData<Result<Command>> commandResult = new MutableLiveData<>();
+    private final @Getter MutableLiveData<Result<Command>> commandResult = new MutableLiveData<>();
     private @Getter @Setter MutableLiveData<DeviceInfo> device = new MutableLiveData<>(null);
     private Socket socket;
 
@@ -59,7 +59,7 @@ public class DeviceViewModel extends ViewModel {
         disposables.add(
                 Completable.fromAction(() -> {
                     Api.shutdown(device.getValue().getIp(), device.getValue().getPort());
-                }).subscribeOn(Schedulers.io())
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .doOnComplete(() -> {
                             commandResult.setValue(new Result<>(Command.SHUTDOWN, Result.Status.SUCCESS));
                         })

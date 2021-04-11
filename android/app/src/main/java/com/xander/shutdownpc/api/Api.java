@@ -85,7 +85,7 @@ public class Api {
         }
 
         Request request = new Request.Builder().url(address).post(RequestBody.create(new byte[0])).build();
-        Response response = http.newCall(request).execute();
+        Response response = http.newBuilder().connectTimeout(4, TimeUnit.SECONDS).build().newCall(request).execute();
 
         if (!response.isSuccessful()) throw new HttpException(response.code(), response.body());
     }

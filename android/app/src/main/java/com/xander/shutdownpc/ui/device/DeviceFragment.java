@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xander.shutdownpc.R;
 import com.xander.shutdownpc.model.DeviceInfo;
+import com.xander.shutdownpc.model.Result;
 
 public class DeviceFragment extends Fragment {
     private static final String TAG = DeviceFragment.class.getName();
@@ -71,6 +73,12 @@ public class DeviceFragment extends Fragment {
                     connectionStatusIndicator.setBackgroundResource(R.drawable.disconnected_indicator);
                     connectionStatusText.setText(R.string.disconnected);
                     break;
+            }
+        });
+
+        deviceViewModel.getCommandResult().observe(getViewLifecycleOwner(), (res) -> {
+            if (Result.Status.ERROR.equals(res.getStatus())) {
+                Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
             }
         });
 
