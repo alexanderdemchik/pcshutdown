@@ -5,15 +5,15 @@ module.exports = {
   "win": {
     "target": "NSIS",
     "artifactName": "${productName}-${version}.${ext}",
-    "icon": "src/assets/app_icon.ico"
+    "icon": "src/assets/app_icon.ico",
+    "publisherName": "Alexander Demchik"
   },
   "linux": {
     "target": ["tar.gz", "rpm", "deb"],
     "icon": "src/assets/app_icon.icns"
   },
   "nsis": {
-    "oneClick": false,
-    "allowToChangeInstallationDirectory": true,
+    "oneClick": true,
   },
   "extraFiles": [
     {

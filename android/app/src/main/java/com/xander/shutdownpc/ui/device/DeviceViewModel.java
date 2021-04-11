@@ -128,6 +128,7 @@ public class DeviceViewModel extends ViewModel {
     protected void onCleared() {
         disposables.clear();
         socket.close();
+        commandResult.setValue(null);
         super.onCleared();
     }
 }

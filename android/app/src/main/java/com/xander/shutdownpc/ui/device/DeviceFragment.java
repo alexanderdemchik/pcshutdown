@@ -77,7 +77,7 @@ public class DeviceFragment extends Fragment {
         });
 
         deviceViewModel.getCommandResult().observe(getViewLifecycleOwner(), (res) -> {
-            if (Result.Status.ERROR.equals(res.getStatus())) {
+            if (res != null && Result.Status.ERROR.equals(res.getStatus())) {
                 Toast.makeText(getContext(), R.string.error, Toast.LENGTH_SHORT).show();
             }
         });
