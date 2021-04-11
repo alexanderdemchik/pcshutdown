@@ -73,12 +73,7 @@ public class HomeViewModel extends AndroidViewModel {
                         if (Api.ping(serverIp)) {
                             for (int port: BuildConfig.DEFAULT_API_PORTS) {
                                 rs.add(Observable.fromCallable(() -> {
-                                    try {
-                                        return Api.getDeviceInfo(serverIp, port);
-                                    } catch (Exception e) {
-                                        Log.d(TAG, "getDeviceInfo exception", e);
-                                        throw e;
-                                    }
+                                    return Api.getDeviceInfo(serverIp, port);
                                 }).subscribeOn(Schedulers.io()));
                             }
                             return rs;

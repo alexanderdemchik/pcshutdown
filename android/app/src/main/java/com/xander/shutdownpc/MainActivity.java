@@ -1,5 +1,6 @@
 package com.xander.shutdownpc;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -43,5 +44,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return navController.navigateUp() || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        int start = Navigation.findNavController(this, R.id.nav_host_fragment).getCurrentDestination().getId();
+        if (start == R.id.mainFragment) {
+            super.onBackPressed();
+        } else {
+            onSupportNavigateUp();
+        }
     }
 }

@@ -8,8 +8,19 @@
         android:right="10dp"
         android:left="10dp">
         <shape android:shape="oval">
+            <solid android:color="?buttonColor" />
+        </shape>
+    </item>
+    <item android:top="120dp"
+        android:bottom="120dp"
+        android:right="120dp"
+        android:left="120dp">
+        <shape android:shape="oval">
             <solid android:color="?iconColor" />
         </shape>
     </item>
-    <item android:drawable="@drawable/restart"/>
+    <item android:drawable="@drawable/restart" android:top="100dp"
+        android:bottom="100dp"
+        android:right="100dp"
+        android:left="100dp"/>
 </layer-list>

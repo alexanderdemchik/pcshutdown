@@ -2,6 +2,7 @@ import winston from 'winston';
 import 'winston-daily-rotate-file';
 import path from 'path';
 import { getRootPath } from './utils'; 
+import config from './config';
 
 function formatter(isConsole: boolean) {
   const formatters = [];
@@ -29,7 +30,7 @@ function formatter(isConsole: boolean) {
 }
 
 const logger = winston.createLogger({
-  level: 'debug',
+  level: config.logLevel ? config.logLevel : 'debug',
   format: winston.format.json(),
   transports: [
     new winston.transports.DailyRotateFile({ 

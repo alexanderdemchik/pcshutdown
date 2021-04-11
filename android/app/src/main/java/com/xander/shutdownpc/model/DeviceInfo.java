@@ -12,4 +12,9 @@ public class DeviceInfo implements Serializable {
     private int port;
     private String platform;
     private String version;
+    private ConnectionStatus connectionStatus = ConnectionStatus.CONNECTED;
+
+    public enum ConnectionStatus {
+        CONNECTED, DISCONNECTED, LOADING
+    }
 }

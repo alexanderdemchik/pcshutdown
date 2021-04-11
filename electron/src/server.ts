@@ -2,19 +2,27 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import logger from './logger';
 import config from './config';
+import { Server as SocketServer } from 'socket.io';
 import * as commands from './services/commands';
+import http from 'http';
 
-const server = new Koa();
+const koa = new Koa();
+const server = http.createServer(koa.callback());
 const router = new Router();
+const io = new SocketServer(server, {});
 
-server.use(async (ctx, next) => {
+io.on("connection", (socket) => {
+  logger.debug(`New connection ${socket.handshake.address}`);
+});
+
+koa.use(async (ctx, next) => {
   const started = Date.now();
   await next();
   const ellapsed = (Date.now() - started) + 'ms';
   logger.debug(`${ctx.url} - ${ellapsed}`);
 });
 
-server.use(router.routes());
+koa.use(router.routes());
 
 router.get('/', async (ctx) => {
   ctx.body = commands.getDeviceInfo();
@@ -36,7 +44,7 @@ router.post('/sleep', async (ctx) => {
   ctx.status = 200;
 });
 
-server.on('error', (err) => {
+koa.on('error', (err) => {
   logger.error('%o', err);
 });
 
@@ -46,13 +54,13 @@ const ports = config.ports;
 /**
  * start server on passed port argument or select port from config
  * if port in use tries start on ports that are listed in config key "ports"
- * @param port server start port 
+ * @param port koa start port 
  */
 export const start = async (port?: number) => {
   return new Promise((resolve, reject) => {
     const p = port ? port : config.port;
     server.listen(p, () => {
-      logger.info(`Started server on port ${p}`)
+      logger.info(`Started koa on port ${p}`)
       
       if (p != config.port) {
         config.set('port', p);
@@ -68,7 +76,7 @@ export const start = async (port?: number) => {
         if (tries < ports.length) {
           start(ports[tries]);
         } else {
-          logger.error('Unable to start server, ports in use');
+          logger.error('Unable to start koa, ports in use');
           reject(error);
         }
       } else {
@@ -78,3 +86,4 @@ export const start = async (port?: number) => {
     });
   });
 }
+

@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import { getRootPath } from './utils';
 import { app, Tray, Menu } from 'electron';
 import path from 'path';
@@ -69,6 +70,9 @@ async function checkAutorun() {
   }
 }
 
+/**
+ * Add app to tray
+ */
 async function createTrayMenu() {
   tray = new Tray(path.join(getRootPath(), getAppIconPath()));
   const contextMenu = Menu.buildFromTemplate([

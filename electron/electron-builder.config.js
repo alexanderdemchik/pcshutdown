@@ -1,4 +1,4 @@
-const env = require('dotenv').config().parsed;
+const { buildDirectory } = require('./package.json');
 
 module.exports = {
   "appId": "PC Shutdown",
@@ -17,21 +17,21 @@ module.exports = {
   },
   "extraFiles": [
     {
-      "from": `${env.BUILD_DIRECTORY}/locales`,
+      "from": `${buildDirectory}/locales`,
       "to": "locales",
       "filter": [
         "**/*"
       ]
     },
     {
-      "from": `${env.BUILD_DIRECTORY}/assets`,
+      "from": `${buildDirectory}/assets`,
       "to": "assets",
       "filter": [
         "**/*"
       ]
     },
     {
-      "from": `${env.BUILD_DIRECTORY}/config.json`,
+      "from": `${buildDirectory}/config.json`,
       "to": "config.json",
       "filter": [
         "**/*"

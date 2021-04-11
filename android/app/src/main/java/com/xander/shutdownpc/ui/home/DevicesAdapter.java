@@ -79,7 +79,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
         viewHolder.deviceName.setText(device.getHostname());
         viewHolder.deviceInfo.setText(formatDeviceInfo(device.getVersion(), device.getArch()));
 
-        viewHolder.macAddress.setText(device.getIp());
+        viewHolder.macAddress.setText(device.getIp() + ":" + device.getPort());
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
     }

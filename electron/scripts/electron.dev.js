@@ -1,4 +1,3 @@
-require('dotenv').config();
 const webpack = require('webpack');
 const fs = require('fs');
 const spawn = require('cross-spawn');

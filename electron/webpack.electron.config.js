@@ -1,9 +1,8 @@
 const path = require('path');
-const { DefinePlugin, ContextReplacementPlugin } = require('webpack');
-const env = require('dotenv').config().parsed;
+const { ContextReplacementPlugin } = require('webpack');
+const { buildDirectory } = require('./package.json');
 const CopyPlugin = require("copy-webpack-plugin");
-
-const BUILD_DIRECTORY = env.BUILD_DIRECTORY;
+const BUILD_DIRECTORY = buildDirectory;
 
 module.exports = {
   resolve: {
@@ -29,9 +28,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, BUILD_DIRECTORY),
     filename: 'index.js',
+    clean: true
   },
+  externals: [/node_modules/, 'bufferutil', 'utf-8-validate'],
   plugins: [
-    new DefinePlugin(env),
     new CopyPlugin({
       patterns: [
         { from: "src/assets", to: "assets" },

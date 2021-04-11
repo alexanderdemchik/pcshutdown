@@ -12,8 +12,11 @@ import com.xander.shutdownpc.utils.GsonProvider;
 import com.xander.shutdownpc.utils.OkHttpProvider;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import okhttp3.OkHttp;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,7 +53,6 @@ public class Api {
         DeviceInfo info = gson.fromJson(body.string(), DeviceInfo.class);
         info.setIp(ip);
         info.setPort(port);
-        Log.d(TAG, "getDeviceInfo: " + info);
         return info;
     }
 
@@ -112,5 +114,11 @@ public class Api {
         {
             return false;
         }
+    }
+
+    public static Socket createSocketConnection(String ip, int port) {
+        URI uri = URI.create(API_PROTOCOL + "://" + ip + ":" + port);
+        IO.Options options = IO.Options.builder().build();
+        return IO.socket(uri, options);
     }
 }
