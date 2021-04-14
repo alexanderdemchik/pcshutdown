@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error">Произошла ошибка</string>
+    <string name="no_devices_found">Устройства не найдены. Попробуйте обновить страницу</string>
+    <string name="connected">Подключен</string>
+    <string name="disconnected">Отключен</string>
+</resources>
